@@ -12,10 +12,10 @@
 ds_cli_exec( "wp core download" );
 
 //** Install WordPress
-ds_cli_exec( "wp core install --url=$siteName --title='Dynamic Blueprint' --admin_user=$admin_user --admin_password=$password --admin_email=$admin_email" );
+ds_cli_exec( "wp core install --url=$siteName --title='WP Testing' --admin_user=$admin_user --admin_password=$password --admin_email=$admin_email" );
 
 //** Change the tagline
-ds_cli_exec( "wp option update blogdescription 'The sites tagline'" );
+ds_cli_exec( "wp option update blogdescription 'Testing WordPress'" );
 
 //** Don't e-mail me when anyone posts a comment.
 ds_cli_exec( "wp option update default_comment_status 0" );
@@ -24,10 +24,10 @@ ds_cli_exec( "wp option update default_comment_status 0" );
 ds_cli_exec( "wp option update moderation_notify 0" );
 
 //** Disallow comments (can be overridden with individual posts)
-ds_cli_exec( "wp option update default_comment_status 'closed'" );
+// ds_cli_exec( "wp option update default_comment_status 'closed'" );
 
 //** Change Permalink structure
-ds_cli_exec( "wp rewrite structure '/%postname%/'" );
+// ds_cli_exec( "wp rewrite structure '/%postname%/'" );
 
 //** Discourage search engines from indexing this site
 ds_cli_exec( "wp option update blog_public 'on'" );
@@ -36,80 +36,73 @@ ds_cli_exec( "wp option update blog_public 'on'" );
 ds_cli_exec( "wp plugin install wpsitesynccontent" );
 ds_cli_exec( "wp plugin activate wpsitesynccontent" );
 
+//** Download plugin from repository, unzip WP Beta Tester, activate
+ds_cli_exec( "wp plugin install wordpress-beta-tester" );
+ds_cli_exec( "wp plugin activate wordpress-beta-tester" );
+
+//** Download plugin from repository, unzip Classic Editor
+ds_cli_exec( "wp plugin install classic-editor");
+
+//** Download plugin from repository, unzip Classic Widgets
+ds_cli_exec( "wp plugin install classic-widgets");
+
+//** Download plugin from repository, unzip Site Health Check, activate
+ds_cli_exec( "wp plugin install health-check");
+ds_cli_exec( "wp plugin activate health-check");
+
+//** Download plugin from repository, unzip Query Monitor, activate
+ds_cli_exec( "wp plugin install query-monitor");
+ds_cli_exec( "wp plugin activate query-monitor");
+
+//** Download plugin from repository, unzip Debug Bar, activate
+ds_cli_exec( "wp plugin install debug-bar");
+ds_cli_exec( "wp plugin activate debug-bar");
+
+//** Download plugin from repository, unzip Show Hooks
+ds_cli_exec( "wp plugin install show-hooks");
+
+
+//** Download plugin from repository, unzip WPCrontrol, 
+ds_cli_exec( "wp plugin install wp-crontrol");
+
+
+//** Download plugin from repository, unzip Transients Manager
+ds_cli_exec( "wp plugin install transients-manager");
+
+
+//** Download plugin from repository, unzip WPSiteSync for Content, activate
+ds_cli_exec( "wp plugin install wpsitesynccontent" );
+ds_cli_exec( "wp plugin activate wpsitesynccontent" );
+
 //** Download & Activate Theme from WordPress repository
-ds_cli_exec( "wp theme install astra --activate" );
+ds_cli_exec( "wp theme install tt1-blocks --activate" );
 
 //** Download & Activate Theme from Git
-ds_cli_exec( "git clone https://github.com/Fruitfulcode/Fruitful.git wp-content/themes/fruitful/");
-//ds_cli_exec( "wp theme activate fruitful" );
+// ds_cli_exec( "git clone https://github.com/WordPress/theme-experiments.git wp-content/themes/");
+//ds_cli_exec( "wp theme activate tt1" );
 
 //** Download & Activate Plugin from Git
-ds_cli_exec( "git clone https://github.com/awesomemotive/all-in-one-seo-pack.git wp-content/plugins/all-in-one-seo-pack/" );
-ds_cli_exec( "wp plugin activate all-in-one-seo-pack" );
+ds_cli_exec( "git clone https://github.com/afragen/git-updater.git wp-content/plugins/git-updater/" );
+ds_cli_exec( "wp plugin activate git-updater" );
 
-//** Download & Activate Plugin from a private Git repo
-//ds_cli_exec( "git clone https://{username}:{password}@github.com/ServerPress/sync.git wp-content/plugins/wpsitesync/" );
-//ds_cli_exec( "wp plugin activate wpsitesync" );
+//** Download & Activate Visual Studio Code Support
+ds_cli_exec("git clone https://github.com/ServerPress/visual-studio-code-support.git wp-content/plugins/visual-studio-code-support");
+ds_cli_exec(" wp plugin activate visual-studio-code-support");
 
-/** Install & Activate Plugin located on the Computer - Use Path based on DS-CLI */
-/* Mac example */
-//ds_cli_exec( "cp /Volumes/Data/Premium_Plugins/bb-plugin-agency.zip ./; wp plugin install bb-plugin-agency.zip --activate; rm bb-plugin-agency.zip" );
-/* Windows example */
-//ds_cli_exec( "cp c:/Premium_Plugins/bb-plugin-agency.zip ./; wp plugin install bb-plugin-agency.zip --activate; rm bb-plugin-agency.zip" );
+//** Download & Activate Gutenberg Nightlies
+ds_cli_exec("git clone https://github.com/WordPress/gutenberg.git wp-content/plugins/gutenberg");
+ds_cli_exec(" wp plugin activate gutenberg");
 
-//** Install & Activate Theme located on the Computer - Use Path based on DS-CLI
-/* Mac example */
-//ds_cli_exec( "cp /Volumes/Data/Premium_Themes/bb-theme.zip ./; wp theme install bb-theme.zip; rm bb-theme.zip" );
-/* Windows example */
-//ds_cli_exec( "cp c:/Premium_Themes/bb-theme.zip ./; wp theme install bb-theme.zip; rm bb-theme.zip" );
-
-//** Create child theme
-$child_theme_name = "astra-child";
-ds_cli_exec( "wp scaffold child-theme $child_theme_name --parent_theme=astra --activate" );
-ds_cli_exec( "cp screenshot.png wp-content/themes/$child_theme_name/");
-
-//** Remove Default Themes (Except twentytwenty for debugging)
-ds_cli_exec( "wp theme delete twentynineteen" );
-ds_cli_exec( "wp theme delete twentyseventeen" );
 
 //** Remove Default Plugins
 ds_cli_exec( "wp plugin delete akismet" );
 ds_cli_exec( "wp plugin delete hello" );
 
-//** Remove Default Post/Page
-ds_cli_exec( "wp post delete 1 --force" ); // Hello World!
-ds_cli_exec( "wp post delete 2 --force" ); // Sample Page
-
-//** Make a new page for the homepage and blog page
-ds_cli_exec( "wp post create --post_type=page --post_title='Home' --post_status='publish' --post_author=1 --menu_order=1" ); // Home page
-ds_cli_exec( "wp post create --post_type=page --post_title='News' --post_status='publish' --post_author=1 --menu_order=2" ); // Blog page 
-ds_cli_exec( "wp post create --post_type=page --post_title='Contact' --post_status='publish' --post_content='This is my Contact Page' --post_author=1 --menu_order=4" ); //Contact page
-
-# Create post with content from given file
-ds_cli_exec( "wp post create ./about-page-content.txt --post_type=page --post_title='About' --post_status='publish' --post_author=1 --menu_order=3" ); //About page 
-
-//** Make the created pages the default for Home and Blog
-ds_cli_exec( "wp option update show_on_front 'page'" );
-ds_cli_exec( "wp option update page_on_front '4'" );
-ds_cli_exec( "wp option update page_for_posts '5'" );
-
-//** Delete First Comment
-ds_cli_exec( "wp comment delete 1" );
-
-//** Delete all the default sidebar widgets
-ds_cli_exec( "wp widget delete search-2 recent-posts-2 recent-comments-2 archives-2 categories-2 meta-2 --quiet" );
-
 //** Set the timezone
-ds_cli_exec( "wp option update timezone_string 'America/Los_Angeles'" );
+ds_cli_exec( "wp option update timezone_string 'America/New_York'" );
+ds_cli_exec( "wp option update time_format 'g:i A'");
+ds_cli_exec( "wp option update start_of_week 0" );
 
-//** Create the main menu and assign it to the primary menu slot
-ds_cli_exec( "wp menu create 'Main Menu'" );
-ds_cli_exec( "wp menu location assign main-menu primary" );
-ds_cli_exec( "wp menu item add-post main-menu 4 --title='Home'" );
-ds_cli_exec( "wp menu item add-post main-menu 5 --title='News'" );
-ds_cli_exec( "wp menu item add-post main-menu 6 --title='Contact'" );
-ds_cli_exec( "wp menu item add-post main-menu 7 --title='About'" );
-ds_cli_exec( "wp menu item add-custom main-menu Dashboard $siteName/wp-admin" );
 
 //** Create a local Git Repo
 ds_cli_exec( "git init");
@@ -123,18 +116,18 @@ ds_cli_exec( "git init");
  *  */
 
 //** Change to your github user and token
-$git_user = "user";
-$git_token = "token";
+// $git_user = "user";
+// $git_token = "token";
 
-//** Set default user and token from github
-ds_cli_exec( "git config --global github.user $git_user" );
-ds_cli_exec( "git config --global github.token $git_token" );
+// //** Set default user and token from github
+// ds_cli_exec( "git config --global github.user $git_user" );
+// ds_cli_exec( "git config --global github.token $git_token" );
 
-//** Create Github Repo 
-ds_cli_exec( "curl -u $git_user:$git_token https://api.github.com/user/repos -d '{ \"name\": \"$siteName\" }'" );
+// //** Create Github Repo 
+// ds_cli_exec( "curl -u $git_user:$git_token https://api.github.com/user/repos -d '{ \"name\": \"$siteName\" }'" );
 
-//** Add remote origin to git
-ds_cli_exec( "git remote add origin git@github.com:$git_user/$siteName.git" );
+// //** Add remote origin to git
+// ds_cli_exec( "git remote add origin git@github.com:$git_user/$siteName.git" );
 
 //** Add files to local Repo
 ds_cli_exec( "git add wp-content");
@@ -146,15 +139,18 @@ ds_cli_exec( "git commit -m 'Intial Commit'");
 ds_cli_exec( "git push -u origin master" );
 
 //** Create a directory & get image from Github based on DS-CLI
-//	ds_cli_exec( "mkdir ./media" );
-//	ds_cli_exec( "wget https://jawordpressorg.github.io/wapuu/wapuu-original/wapuu-original.svg -O ./media/wapuu.svg" );
+ds_cli_exec( "mkdir ./media" );
+ds_cli_exec( "wget https://jawordpressorg.github.io/wapuu/wapuu-original/wapuu-original.svg -O ./media/wapuu.svg" );
 
 //** Add a Editor User
 ds_cli_exec( "wp user create bob bob@example.com --role=editor" );
 
 //** Import dummy content for posts / WordPress Imported plugin is required
 ds_cli_exec( "wp plugin install wordpress-importer --activate");
-ds_cli_exec( "wp import ./wordpress-wxr-example.xml --authors=create");
+ds_cli_exec( "wp import https://github.com/WPTT/theme-test-data.git --authors=create");
+ds_cli_exec( "wp import https://github.com/Automattic/theme-tools/blob/master/gutenberg-test-data/gutenberg-test-data.xml --authors=create");
+ds_cli_exec( "wp import https://github.com/Automattic/theme-tools/blob/3f72f6fab48717bbd9a0fd78c71dde19df3b16bb/gutenberg-test-data/jetpack-shortcode-test-data.xml --authors=create");
+
 
 //** Deactivate and remove WordPress Imported plugin is required
 ds_cli_exec( "wp plugin uninstall wordpress-importer --deactivate");
